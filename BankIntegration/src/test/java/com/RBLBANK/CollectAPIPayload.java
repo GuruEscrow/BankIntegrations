@@ -87,7 +87,7 @@ public class CollectAPIPayload {
 		// Parse the XML string into a DOM Document
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        InputSource inputSource = new InputSource(new StringReader(response.asPrettyString()));
+        InputSource inputSource = new InputSource(new StringReader(response.body().asPrettyString()));
         Document xmlBody = builder.parse(inputSource);
         
         if(response.statusCode()==200) {
