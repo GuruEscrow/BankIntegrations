@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.RBLBANK.CollectAPIPayload">
+      <class name="com.NSDL.uat.PayoutsTest">
         <methods>
-          <include name="upiCollectPayload"/>
+          <include name="payout"/>
         </methods>
-      </class> <!-- com.RBLBANK.CollectAPIPayload -->
+      </class> <!-- com.NSDL.uat.PayoutsTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
