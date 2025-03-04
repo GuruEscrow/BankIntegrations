@@ -306,7 +306,9 @@ public class PayoutAPI {
 				.header("servicetype", serviceType)
 				.header("requestid", refID)
 				.header("Content-Type", "application/json")
-				.body(payload).asString();
+				.body(payload)
+				.socketTimeout(1200000)
+				.asString();
 		return response.getBody();
 
 	}

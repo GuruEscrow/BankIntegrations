@@ -107,7 +107,7 @@ public class UPI_Payout {
 				.header("servicetype", serviceType)
 				.header("requestid", refID)
 				.header("Content-Type", "application/json")
-				.header("mode", "2")
+				.header("mode", "1")
 				.body(payload).asString();
 		return response.getBody();
 

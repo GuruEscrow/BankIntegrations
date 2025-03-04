@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonParser;
+
 public class FetchDataFromDB {
 
 	// JDBC URL, username, and password of the MySQL database
@@ -127,7 +129,7 @@ public class FetchDataFromDB {
 			
 //			SELECT * FROM tpslog.payouts_log where txn_status is null
 			String query = "SELECT * FROM "+dataBase+".TxnID where ID = '"+id+"'";
-			System.out.println("getTxnID query--> "+query);
+//			System.out.println("getTxnID query--> "+query);
 
 			preparedStatement = connection.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
@@ -150,4 +152,5 @@ public class FetchDataFromDB {
 		return txnID;
 		
 	}
+	
 }

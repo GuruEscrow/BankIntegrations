@@ -16,9 +16,9 @@ public class PayoutsTest {
 	public void addBene() {
 		PayoutAPI NSDL_API = new PayoutAPI();
 		
-		String accountNo = "456235897";
-		String accType = "SAVINGS_ACCOUNT";
-		String ifsc = "ABCDEFGHIGD";
+		String accountNo = "5467891234";
+		String accType = "SAVINGS_ACCOUNT"; //VPA
+		String ifsc = "HDFC0000001";
 		String bankName = "SBI Bank Ltd.";
 		
 		String response = NSDL_API.createBene(accountNo,accType,ifsc,bankName);
@@ -31,10 +31,10 @@ public class PayoutsTest {
 	public void addNew_AccNo_ToExistingBene() {
 		PayoutAPI NSDL_API = new PayoutAPI();
 
-		String beneID = "eca89c0554ce99eaf250504971789ede";
-		String accountNo = "5648921312";
-		String accType = "SAVINGS_ACCOUNT";
-		String ifsc = "HDFC0000001";
+		String beneID = "fd272fe04b7d4e68effd01bddcc6bb34";
+		String accountNo = "testuat@unitype";
+		String accType = "VPA";
+		String ifsc = "SBIN0000021";
 
 		String response = NSDL_API.addNewAccount_ToExistingBene(beneID, accountNo, accType, ifsc);
 
@@ -46,7 +46,7 @@ public class PayoutsTest {
 	public void beneStatusEnq() {
 		PayoutAPI NSDL_API = new PayoutAPI();
 		
-		String beneID = "eca89c0554ce99eaf250504971789ede";
+		String beneID = "4ca9764c98c203d7bc747cbce9d9174f";
 		
 		String response = NSDL_API.beneStatusEnquiry(beneID);
 		
@@ -59,9 +59,9 @@ public class PayoutsTest {
 		PayoutAPI NSDL_API = new PayoutAPI();
 		
 		String payoutMode = "IMPSP2A";//IMPSP2A NEFT RTGS
-		String beneRefID = "2297607a5db8576d5ad6bbd83696ff60";
+		String beneRefID = "f0f6cc51dacebe556699ccb45e2d43a8";
 		String accountNo = "4567891230";
-		double amt = 2.0;
+		double amt = 10.0;
 		
 		String response = NSDL_API.payout_ToBeneAccount(payoutMode, beneRefID, accountNo, amt);
 		
@@ -73,19 +73,19 @@ public class PayoutsTest {
 	public void upi_payout() throws Exception {
 		UPI_Payout NSDL_API = new UPI_Payout();
 
-		String beneAccRefID = "68897f19b106926ed889fe3f7e3d01c9";
-		double amt = 1.0;
+		String beneAccRefID = "fcac695db02687ffb7955b66a43fe6e6";
+		double amt = 200001.0;
 		
 		String response = NSDL_API.upiPreApprovedPayout(beneAccRefID, amt);
 
 		System.out.println("\nResponse--> " + response);
 		
-        JsonObject jsonResponseBody = JsonParser.parseString(response).getAsJsonObject();
+//        JsonObject jsonResponseBody = JsonParser.parseString(response).getAsJsonObject();
         
-        String encryptedResponseData = jsonResponseBody.get("responsedata").getAsString();
+//        String encryptedResponseData = jsonResponseBody.get("responsedata").getAsString();
         
 //        System.out.println("\nDecrypted Response Data--> "+NSDL_Encrypt_Decrypt.decryptpayload(encryptedResponseData, KEY));
-        System.out.println("\nDecrypted Response Data--> "+NSDL_Encrypt_Decrypt.PGPDecryptPayload(encryptedResponseData, privateKey.replace("\r\n","").trim()));
+//        System.out.println("\nDecrypted Response Data--> "+NSDL_Encrypt_Decrypt.PGPDecryptPayload(encryptedResponseData, privateKey.replace("\r\n","").trim()));
         
 	}
     
@@ -94,7 +94,7 @@ public class PayoutsTest {
 	public void payout_status() {
 		PayoutAPI NSDL_API = new PayoutAPI();
 
-		String id = "ESCROW0144";
+		String id = "Escrow09";
 		
 		String requestID = id;
 		String txnType = "IMPSP2A";

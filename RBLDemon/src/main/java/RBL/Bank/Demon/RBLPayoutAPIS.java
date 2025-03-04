@@ -28,15 +28,33 @@ import RBL.mysql.database.FetchDataFromDB;
 import RBL.mysql.database.InsertDataIntoDB;
 import kong.unirest.Unirest;
 
-public class PayoutAPI {
+public class RBLPayoutAPIS {
 
 //	Credentials
 	
-	private String service_api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJlODdjZTAzMS0yZDZmLTQ0ZjAtYmY0Zi00ODg2Yjc2ZmIzMzIiLCJuYW1lIjpbImdldF9heGlzX2JhbmtfYWNjb3VudF9zdGF0ZW1lbnQiLCJnZXRfcGF5b3V0X2xvZ19lbnRyaWVzX2RhdGVfcmFuZ2UiLCJnZXRfdmFuX2NvbGxlY3RzX2VudHJpZXNfZGF0ZV9yYW5nZSIsImNoZWNrX2FuZF9wcm9jZXNzX3N0YXR1c193aXRoX2F4aXNfYmFuayIsImdldF9wYXlvdXRfbG9nX2VudHJpZXMiLCJjaGVja19zdGF0dXNfd2l0aF9heGlzX2JhbmsiLCJyZXZlcnRfcGF5b3V0c193aXRoX3V0ciJdLCJhdXRob3JpemVkX3BlcnNvbiI6eyJuYW1lIjoiQW51c3JlZSBWaW5vZCJ9LCJ0eXBlIjoic2VydmljZSIsImVudiI6ImxpdmUiLCJpYXQiOjE3MjY1NDgwMDd9.A6GWK1uflE2Qxx28vip5QsahM4nCsXLaueA_wL2Hc8s";	
+	private String CLIENT_ID = "c6ecdf5ce50dab3b8489057b843c0358";
 	
-	private String BASE_URL = "https://myglivetest.escrowstack.io";
+	private String CLIENT_SECRET = "6697fe4dd8e974347db9099b3f0a42ec";
+	
+	private String USER_NAME = "MYGRNDZONE";
+	
+	private String PASS_WORD = "Welcome@123";
+	
+	private String CORP_ID = "MYGRNDZONE";
+	
+	
+	
+	private String BASE_URL = "https://apideveloper.rblbank.com";
 	
 //	Bank Account details
+	
+	private String ACC_NO = "409000145322";
+	
+	private String ACC_NAME = "TEJU MAHTO";
+	
+	private String IFSC = "RATN0000001";
+	
+	private String MODE = "IMPS";
 	
 	private String TRANID;
 	
@@ -46,104 +64,73 @@ public class PayoutAPI {
 	
 	private int status;
 	
-	private Map<String,String> stmtMap = new HashMap<String,String>();
-	
-    public Map<String, String> getStatements(String fromDate,String toDate,String tran_type,String amtValue,String curCode,String LpstDate,String LTxnDate,String LtxnID,String LsrlNo) {
+    public Map<String, String> getStatements(String fromDate,String toDate,String tran_type) {
 		
-		String url = BASE_URL+"/v1/service/get_live_account_statement_by_date";
+		String url = BASE_URL+"/test/sb/rbl/v1/cas/statement";
 		
 		//Updating the transaction ID
 		updateGetStatmentTxnID();
 		
-		String requestPayload =  "{\n" +
-			    "    \"ledger_label\": \"MYGROUND11409002362954\",\n" +
-			    "    \"mode\": \""+tran_type+"\",\n" +
-			    "    \"from_date\": \""+fromDate+"\",\n" +
-			    "    \"to_date\": \""+toDate+"\",\n" +
-			    "    \"Pagination_Details\": {\n" +
-			    "        \"Last_Balance\": {\n" +
-			    "            \"Amount_Value\": \""+amtValue+"\",\n" +
-			    "            \"Currency_Code\": \""+curCode+"\"\n" +
+		String requestPayload = "{\n" +
+			    "    \"Acc_Stmt_DtRng_Req\": {\n" +
+			    "        \"Header\": {\n" +
+			    "            \"TranID\": \""+STMT_TRANID+"\",\n" +
+			    "            \"Corp_ID\": \""+CORP_ID+"\",\n" +
+			    "            \"Approver_ID\": \"A001\"\n" +
 			    "        },\n" +
-			    "        \"Last_Pstd_Date\": \""+LpstDate+"\",\n" +
-			    "        \"Last_Txn_Date\": \""+LTxnDate+"\",\n" +
-			    "        \"Last_Txn_Id\": \""+LtxnID+"\",\n" +
-			    "        \"Last_Txn_SrlNo\": \""+LsrlNo+"\"\n" +
+			    "        \"Body\": {\n" +
+			    "            \"Acc_No\": \""+ACC_NO+"\",\n" +
+			    "            \"Tran_Type\": \""+tran_type+"\",\n" +
+			    "            \"From_Dt\": \""+fromDate+"\",\n" +  // 2020-08-01
+			    "            \"Pagination_Details\": {\n" +
+			    "                \"Last_Balance\": {\n" +
+			    "                    \"Amount_Value\": \"\",\n" +
+			    "                    \"Currency_Code\": \"\"\n" +
+			    "                },\n" +
+			    "                \"Last_Pstd_Date\": \"\",\n" +
+			    "                \"Last_Txn_Date\": \"\",\n" +
+			    "                \"Last_Txn_Id\": \"\",\n" +
+			    "                \"Last_Txn_SrlNo\": \"\"\n" +
+			    "            },\n" +
+			    "            \"To_Dt\": \""+toDate+"\"\n" +  // 2021-08-10
+			    "        },\n" +
+			    "        \"Signature\": {\n" +
+			    "            \"Signature\": \"Signature\"\n" +
+			    "        }\n" +
 			    "    }\n" +
-			    "}";  
+			    "}";   
 		
 		System.out.println("\n***************************statement fetch started**********************************");
 		System.out.println("\nRequest Payload--> "+requestPayload);
 		
 		System.out.println("\nURL---> "+ url);
-
+		
+		Map<String,String> stmtMap = new HashMap<String,String>();
 		String response = null;
 		try {
 			
 			response = invokeUniRequest(url, requestPayload);	
 			System.out.println("\nStatus -->"+status);
-//			System.out.println("\nStatement response --> "+response);
+			System.out.println("\nStatement response --> "+response);
 			
 			JsonObject responseJsonParse = JsonParser.parseString(response).getAsJsonObject();
-			System.out.println(responseJsonParse.toString());
-			if(responseJsonParse.get("data").isJsonArray()) {
-				JsonArray statementArray = responseJsonParse.get("data").getAsJsonArray();
+			if(responseJsonParse.has("Acc_Stmt_DtRng_Res")) {
+				JsonArray statementArray = responseJsonParse.get("Acc_Stmt_DtRng_Res").getAsJsonObject().get("Body").getAsJsonObject().get("transactionDetails").getAsJsonArray();
 				
-				 String txnDesc = null;
-				 String allTxnID = null;
-				    String amtsValue= null;
-				    String currencyCode= null;
-				    String pstdDate= null;
-				    String txnDate= null;
-				    String txnID= null;
-				    String txnSrlNo = null;
 				for (int stmts = 0; stmts < statementArray.size(); stmts++) {
 					
 					JsonObject jsonStmts = statementArray.get(stmts).getAsJsonObject();
-					txnDesc = jsonStmts.get("transactionSummary").getAsJsonObject().get("txnDesc").getAsString();
-					allTxnID = jsonStmts.get("txnId").getAsString().trim();
-					
-					if(stmts==statementArray.size()-1) {
-						
-						amtsValue = jsonStmts.get("txnBalance").getAsJsonObject().get("amountValue").getAsString().trim();
-						currencyCode = jsonStmts.get("txnBalance").getAsJsonObject().get("currencyCode").getAsString().trim();
-						
-					    pstdDate = jsonStmts.get("pstdDate").getAsString().trim();
-					    txnDate = jsonStmts.get("transactionSummary").getAsJsonObject().get("txnDate").getAsString().trim();
-					    txnID = jsonStmts.get("txnId").getAsString().trim();
-					    txnSrlNo = jsonStmts.get("txnSrlNo").getAsString().trim();	
-					}
-					
-					if(txnDesc.contains("-")) {
+					String txnDesc = jsonStmts.get("transactionSummary").getAsJsonObject().get("txnDesc").getAsString();
+					if(txnDesc.contains("IMPS")) {
 						String utr_rrn = txnDesc.split("-")[0].trim();
-						if (!(stmtMap.containsKey(utr_rrn))) {
+						if(!(stmtMap.containsKey(utr_rrn))) {
 							stmtMap.put(utr_rrn, jsonStmts.toString());
-						} else {
+						}else {
 							String oldstm = stmtMap.get(utr_rrn);
-							stmtMap.put(utr_rrn, oldstm + "\n" + jsonStmts.toString());
-						}
-					}else if(txnDesc.contains("NEFT")) {
-						String utr_rrn = txnDesc.split("/")[1].trim();
-						if (!(stmtMap.containsKey(utr_rrn))) {
-							stmtMap.put(utr_rrn, jsonStmts.toString());
-						} else {
-							String oldstm = stmtMap.get(utr_rrn);
-							stmtMap.put(utr_rrn, oldstm + "\n" + jsonStmts.toString());
-						}
-					}else {
-						if (!(stmtMap.containsKey(allTxnID))) {
-							stmtMap.put(allTxnID, jsonStmts.toString());
-						} else {
-							String oldstm = stmtMap.get(allTxnID);
-							stmtMap.put(allTxnID, oldstm + "\n" + jsonStmts.toString());
+							stmtMap.put(utr_rrn, oldstm+"\n"+jsonStmts.toString());
 						}
 					}
-					
 				}
-				getStatements(fromDate, toDate, tran_type, amtsValue, currencyCode, pstdDate, txnDate, txnID, txnSrlNo);
-
-			}else {
-				System.out.println("Done");
 			}
 			
 			//update the response in the data base
@@ -160,52 +147,53 @@ public class PayoutAPI {
 		return stmtMap;
 	}
 	
-	public Map<String, String> imps_Payout(String amt,String beneIFSC,String beneAccNo,String beneName,String beneBankName,String mode,String txnNote) throws ClassNotFoundException, SQLException {
+	public Map<String, String> imps_Payout(String amt,String beneIFSC,String beneAccNo,String beneName) throws ClassNotFoundException, SQLException {
 		
-		String path = "/v1/service";
-		switch (mode) {
-		case "IMPS":
-			path += "/make_imps_payout";
-			break;
-		case "NEFT":
-			path += "/make_neft_payout";
-			break;
-		case "FT":
-			path += "/make_ft_payout";
-			break;
-		case "RTGS":
-			path += "/make_rtgs_payout";
-			break;
-
-		default:
-			break;
-		}
-		String url = BASE_URL+path;
+		String url = BASE_URL+"/test/sb/rbl/v1/payments/corp/payment";
 		Map<String,String> payoutDetails = new HashMap<String, String>();
 		
 		//Updating the transaction Id
 		updateIMPSTxnID();
 		
-		LocalDateTime date = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddHHmmssSSS");
-		String currentDate = date.format(formatter);
-		
 		String requestPayload = "{\n" +
-                "  \"ledger_label\": \"MYGROUND11409002362954\",\n" +
-                "  \"crn\": \""+currentDate+"\",\n" +
-                "  \"amount\": \""+amt+"\",\n" +
-                "  \"debit_TrnParticulars\": \"Testing\",\n" +
-                "  \"debit_PartTrnRmks\": \"Testing\",\n" +
-                "  \"payee_acc_no\": \""+beneAccNo+"\",\n" +
-                "  \"payee_ifsc\": \""+beneIFSC+"\",\n" +
-                "  \"payee_name\": \""+beneName+"\",\n" +
-                "  \"bene_BankName\": \""+beneBankName+"\",\n" +
-                "  \"bene_TrnParticulars\": \""+txnNote+"\",\n" +
-                "  \"bene_PartTrnRmks\": \"bePartTrnRmks\",\n" +
-                "  \"remarks\": \"Remarks\"\n" +
-                "}"; 
+			    "    \"Single_Payment_Corp_Req\": {\n" +
+			    "        \"Header\": {\n" +
+			    "            \"TranID\": \""+TRANID+"\",\n" +
+			    "            \"Corp_ID\": \""+CORP_ID+"\",\n" +
+			    "            \"Maker_ID\": \"M005\",\n" +
+			    "            \"Checker_ID\": \"C003\",\n" +
+			    "            \"Approver_ID\": \"A003\"\n" +
+			    "        },\n" +
+			    "        \"Body\": {\n" +
+			    "            \"Amount\": \""+amt+"\",\n" +
+			    "            \"Debit_Acct_No\": \""+ACC_NO+"\",\n" +
+			    "            \"Debit_Acct_Name\": \""+ACC_NAME+"\",\n" + // Not mandatory
+			    "            \"Debit_IFSC\": \""+IFSC+"\",\n" +
+			    "            \"Debit_Mobile\": \"9856234589\",\n" +
+			    "            \"Debit_TrnParticulars\": \"FARIDA\",\n" + // Not mandatory
+			    "            \"Debit_PartTrnRmks\": \"SURESH\",\n" + // Not mandatory
+			    "            \"Ben_IFSC\": \""+beneIFSC+"\",\n" +
+			    "            \"Ben_Acct_No\": \""+beneAccNo+"\",\n" +
+			    "            \"Ben_Name\": \""+beneName+"\",\n" +
+			    "            \"Ben_Address\": \"MUMBAI\",\n" + // Not mandatory
+			    "            \"Ben_BankName\": \"Bank\",\n" +
+			    "            \"Ben_BankCd\": \"176\",\n" + // Not mandatory
+			    "            \"Ben_BranchCd\": \"0123\",\n" + // Not mandatory
+			    "            \"Ben_Email\": \"mail@gmail.com\",\n" + // Not mandatory
+			    "            \"Ben_Mobile\": \"9895527234\",\n" + // Not mandatory
+			    "            \"Ben_TrnParticulars\": \"VIBEESH_@123\",\n" + // Not mandatory
+			    "            \"Ben_PartTrnRmks\": \"Testing\",\n" +
+			    "            \"Issue_BranchCd\": \"0112\",\n" + // Not mandatory
+			    "            \"Mode_of_Pay\": \""+MODE+"\",\n" +
+			    "            \"Remarks\": \"PAYEMNT QUEUES\"\n" +
+			    "        },\n" +
+			    "        \"Signature\": {\n" +
+			    "            \"Signature\": \"Signature\"\n" +
+			    "        }\n" +
+			    "    }\n" +
+			    "}"; 
 		
-		System.out.println("\n********************** Payout started***********************************");
+		System.out.println("\n**********************IMPS Payout started***********************************");
 		System.out.println("\nRequest Payload--> "+requestPayload);
 		
 		System.out.println("\nURL---> "+ url);
@@ -215,10 +203,9 @@ public class PayoutAPI {
 		String responseTSString = null;
 		long delay = 0;
 		String utr_rrn = null;
-		String poNum = null;
 		try {
 			//update request body in the data base
-			InsertDataIntoDB.insertPayloadWithUserRef(TRANID, requestPayload, mode);
+			InsertDataIntoDB.insertPayloadWithUserRef(TRANID, requestPayload, MODE);
 			
 			// Date Formats
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -245,17 +232,13 @@ public class PayoutAPI {
 			System.out.println("\nresponse--> "+response);
 			JsonObject responseJosnParse = JsonParser.parseString(response).getAsJsonObject();
 			
-			JsonObject responseBody = responseJosnParse.get("data").getAsJsonObject();
-			if(responseBody.has("RefNo")) {
-//				JsonObject responseBody =	responseJosnParse.get("Single_Payment_Corp_Resp").getAsJsonObject().get("Body").getAsJsonObject();
+			if(responseJosnParse.has("Single_Payment_Corp_Resp")) {
+				JsonObject responseBody =	responseJosnParse.get("Single_Payment_Corp_Resp").getAsJsonObject().get("Body").getAsJsonObject();
 				
-				if(mode.equals("IMPS")) {
+				if(MODE.equals("IMPS")) {
 				   utr_rrn = responseBody.get("RRN").getAsString();
-				}else if(mode.equals("NEFT")) {
-					utr_rrn = responseBody.get("UTRNo").getAsString();
-					poNum = responseBody.get("PONum").getAsString();
-				}else if(mode.equals("FT")) {
-					utr_rrn = responseBody.get("RefNo").getAsString();
+				}else {
+					utr_rrn = responseBody.get("UTRNo").getAsString();	
 				}
 				//Updating the txn response
 				InsertDataIntoDB.updateTxnResponse(utr_rrn, response, TRANID);
@@ -279,24 +262,34 @@ public class PayoutAPI {
 		
 		payoutDetails.put("tranID", TRANID);
 		payoutDetails.put("utr_rrn", utr_rrn);
-		payoutDetails.put("mode", mode);
-		payoutDetails.put("poNum", poNum);
-		System.out.println("\n*************************** payout ended********************************");
+		System.out.println("\n***************************IMPS payout ended********************************");
 		return payoutDetails;
 	}
 	
-	public String imps_payout_StatusChecker(String rrn,String transID,String mode) throws ClassNotFoundException, SQLException {
+	public String imps_payout_StatusChecker(String rrn,String transID) throws ClassNotFoundException, SQLException {
 		
-		String url = BASE_URL+"/v1/service/check_rbl_payout_status";
+		String url = BASE_URL+"/test/sb/rbl/v1/payments/corp/payment/query";
 		
 		//Updating the transaction ID
 //		updateIMPS_StatusTxnID();
 		
 		String requestPayload = "{\n" +
-                "  \"ledger_label\": \"MYGROUND11409002362954\",\n" +
-                "  \"mode\": \""+mode+"\",\n" +
-                "  \"ref_no\": \""+rrn+"\"\n" +
-                "}";  
+			    "  \"get_Single_Payment_Status_Corp_Req\": {\n" +
+			    "    \"Header\": {\n" +
+			    "      \"TranID\": \""+transID+"\",\n" +
+			    "      \"Corp_ID\": \""+CORP_ID+"\",\n" +
+			    "      \"Maker_ID\": \"M005\",\n" +
+			    "      \"Checker_ID\": \"C003\",\n" +
+			    "      \"Approver_ID\": \"A003\"\n" +
+			    "    },\n" +
+			    "    \"Body\": {\n" +
+			    "      \"RRN\": \""+rrn+"\"\n" +
+			    "    },\n" +
+			    "    \"Signature\": {\n" +
+			    "      \"Signature\": \"Signature\"\n" +
+			    "    }\n" +
+			    "  }\n" +
+			    "}";  
 		
 		System.out.println("\n**************************Status Checker Started*************************************");
 		System.out.println("\nRequest Payload--> "+requestPayload);
@@ -310,15 +303,10 @@ public class PayoutAPI {
 			
 			JsonObject responseJsonParse = JsonParser.parseString(response).getAsJsonObject();
 			
-			JsonObject bodyHeader = responseJsonParse.get("data").getAsJsonObject();
-			if(bodyHeader.has("ORGTRANSACTIONID") && this.status == 200) {
-//				JsonObject bodyHeader = responseJsonParse.get("get_Single_Payment_Status_Corp_Res").getAsJsonObject().get("Header").getAsJsonObject();
+			if(responseJsonParse.has("get_Single_Payment_Status_Corp_Res")) {
+				JsonObject bodyHeader = responseJsonParse.get("get_Single_Payment_Status_Corp_Res").getAsJsonObject().get("Header").getAsJsonObject();
 				
-				if(mode.equals("NEFT")||mode.equals("RTGS")) {
-					status = bodyHeader.get("TXNSTATUS").getAsString();					
-				}else {
-					status = "Success";	
-				}
+				status = bodyHeader.get("Status").getAsString();
 				System.out.println("Status resposne---> "+response);
 				
 				//updating the status in the DB
@@ -350,7 +338,7 @@ public class PayoutAPI {
 			e.printStackTrace();
 		}
 
-		TRANID = "ESCROW0" + num;
+		TRANID = "ESCROWIMPS0" + num;
 
 		// Updating the number in property file
 		try {
@@ -374,7 +362,7 @@ public class PayoutAPI {
 			e.printStackTrace();
 		}
 
-		STATUS_TRANID = "ESCROWSTATUS0" + num;
+		STATUS_TRANID = "ESCROWIMPSSTATUS0" + num;
 
 		// Updating the number in property file
 		try {
@@ -398,7 +386,7 @@ public class PayoutAPI {
 			e.printStackTrace();
 		}
 
-		STMT_TRANID = "ESCROWSMT0" + num;
+		STMT_TRANID = "ESCROWSTMT0" + num;
 
 		// Updating the number in property file
 		try {
@@ -414,10 +402,50 @@ public class PayoutAPI {
 	 * @throws Exception 
 	 */
 	private String invokeUniRequest(String url, String payload) throws Exception {
+		String absolutePfxPath = "./src/main/resources/myground11.pfx"; // System-wide path for service
+        String resourcePfxPath = "myground11.pfx"; // Inside JAR (for Eclipse)
+
+        InputStream fis = null;
+        File pfxFile = new File(absolutePfxPath);
+
+        if (pfxFile.exists()) {
+            fis = new FileInputStream(pfxFile);
+        } else {
+            fis = RBLPayoutAPIS.class.getClassLoader().getResourceAsStream(resourcePfxPath);
+            if (fis == null) {
+                throw new RuntimeException("PFX file not found in classpath: " + resourcePfxPath);
+            }
+        }
+
+        // Load PFX file into KeyStore (No Password)
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        keyStore.load(fis, new char[0]); // No password
+        fis.close();
+
+        // Set up KeyManagerFactory without password
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        kmf.init(keyStore, new char[0]); // No password
+
+        // Create SSLContext with KeyStore
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(kmf.getKeyManagers(), null, new SecureRandom());
+
+        // Create HttpClient with SSL support
+        SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
+                sslContext, NoopHostnameVerifier.INSTANCE // Ignore hostname verification (if needed)
+        );
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .setSSLSocketFactory(socketFactory)
+                .build();
+
+        // Configure Unirest to use custom HttpClient
+        Unirest.config().httpClient(httpClient);
 		
 		kong.unirest.HttpResponse<String> response = Unirest.post(url)
 				.header("Content-Type", "application/json")
-		        .header("apikey",service_api_key)
+				.basicAuth(USER_NAME, PASS_WORD)
+				.queryString("client_id",CLIENT_ID)
+				.queryString("client_secret",CLIENT_SECRET)
 				.body(payload)
 				.socketTimeout(1200000)
 				.asString();

@@ -5,7 +5,7 @@
     <classes>
       <class name="com.NSDL.uat.PayoutsTest">
         <methods>
-          <include name="payout"/>
+          <include name="upi_payout"/>
         </methods>
       </class> <!-- com.NSDL.uat.PayoutsTest -->
     </classes>

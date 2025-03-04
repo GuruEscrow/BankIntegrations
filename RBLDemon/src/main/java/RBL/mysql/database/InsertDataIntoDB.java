@@ -248,7 +248,7 @@ public class InsertDataIntoDB {
 //					+ statement + "', '" + stmTimeStamp + "')";
 			String query = "UPDATE "+dataBase+".TxnID SET count = '" + count
 					+ "' WHERE ID ='" + id + "'";
-			System.out.println("updateTxnID query--> "+query);
+//			System.out.println("updateTxnID query--> "+query);
 
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.executeUpdate();

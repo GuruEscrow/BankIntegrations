@@ -2,15 +2,15 @@
 <testng-results ignored="5" total="6" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-02-17T10:59:44 IST" name="Default suite" finished-at="2025-02-17T10:59:45 IST" duration-ms="1532">
+  <suite started-at="2025-02-28T17:18:29 IST" name="Default suite" finished-at="2025-02-28T17:18:34 IST" duration-ms="4629">
     <groups>
     </groups>
-    <test started-at="2025-02-17T10:59:44 IST" name="Default test" finished-at="2025-02-17T10:59:45 IST" duration-ms="1532">
+    <test started-at="2025-02-28T17:18:29 IST" name="Default test" finished-at="2025-02-28T17:18:34 IST" duration-ms="4629">
       <class name="com.NSDL.uat.PayoutsTest">
-        <test-method signature="upi_payout()[pri:0, instance:com.NSDL.uat.PayoutsTest@1807f5a7]" started-at="2025-02-17T10:59:44 IST" name="upi_payout" finished-at="2025-02-17T10:59:45 IST" duration-ms="1476" status="PASS">
+        <test-method signature="payout_status()[pri:0, instance:com.NSDL.uat.PayoutsTest@1807f5a7]" started-at="2025-02-28T17:18:30 IST" name="payout_status" finished-at="2025-02-28T17:18:34 IST" duration-ms="4386" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- upi_payout -->
+        </test-method> <!-- payout_status -->
       </class> <!-- com.NSDL.uat.PayoutsTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
