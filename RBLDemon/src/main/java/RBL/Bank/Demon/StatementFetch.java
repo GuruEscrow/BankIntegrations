@@ -18,9 +18,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonParser;
 
+import RBL.mysql.database.FetchDataFromDB;
 import RBL.mysql.database.InsertDataIntoDB;
 
 public class StatementFetch {
@@ -40,7 +43,7 @@ public class StatementFetch {
 		}
 		
 
-	public static void abcd() throws ClassNotFoundException, SQLException {
+	public static void main(String [] args) throws ClassNotFoundException, SQLException {
 		updateUrl();
 		
         PayoutAPI api = new PayoutAPI();
@@ -49,7 +52,7 @@ public class StatementFetch {
 		String fromDate = LocalDate.now().format(dateFormat);
 		String toDate = LocalDate.parse(fromDate, dateFormat).plusDays(1).format(dateFormat);
 		
-         Map<String, String> stmtMap = api.getStatements(fromDate, toDate, "D", "", "", "", "", "", "");
+         Map<String, String> stmtMap = api.getStatements("2025-03-04", "2025-03-05", "D", "", "", "", "", "", "");
          
       // Define the directory path and file name
          String directoryPath = "D:\\Phedora\\Banks\\RBL bank\\Reports";
@@ -62,39 +65,39 @@ public class StatementFetch {
 	
          System.out.println(stmtMap.size());
 
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		// Establishing the connection
-		String payout_timeStamp = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection(jdbcUrl, username, password);
-			String query = "SELECT * FROM "+dataBase+".payouts_log where mode = 'IMPS'";
-
-			preparedStatement = connection.prepareStatement(query);
-			resultSet = preparedStatement.executeQuery();
-
-			while (resultSet.next()) {
-				String tranID = resultSet.getString("TranID");
-				String utr = resultSet.getString("utr_rrn");
-				
-				if (stmtMap.containsKey(utr)) {
-					String stmtTimeStamp = JsonParser.parseString(stmtMap.get(utr)).getAsJsonObject()
-							.get("pstdDate").getAsString();
-					InsertDataIntoDB.updateBankStmWithTimeStamp(stmtMap.get(utr), stmtTimeStamp, tranID);
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("Connection failed. Error: " + e.getMessage());
-		} finally {
-			if (resultSet != null)
-				resultSet.close();
-			if (resultSet != null)
-				preparedStatement.close();
-			if (connection != null)
-				connection.close();
-		}
+//		Connection connection = null;
+//		PreparedStatement preparedStatement = null;
+//		ResultSet resultSet = null;
+//		// Establishing the connection
+//		String payout_timeStamp = null;
+//		try {
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+//			connection = DriverManager.getConnection(jdbcUrl, username, password);
+//			String query = "SELECT * FROM "+dataBase+".payouts_log where mode = 'IMPS'";
+//
+//			preparedStatement = connection.prepareStatement(query);
+//			resultSet = preparedStatement.executeQuery();
+//
+//			while (resultSet.next()) {
+//				String tranID = resultSet.getString("TranID");
+//				String utr = resultSet.getString("utr_rrn");
+//				
+//				if (stmtMap.containsKey(utr)) {
+//					String stmtTimeStamp = JsonParser.parseString(stmtMap.get(utr)).getAsJsonObject()
+//							.get("pstdDate").getAsString();
+//					InsertDataIntoDB.updateBankStmWithTimeStamp(stmtMap.get(utr), stmtTimeStamp, tranID);
+//				}
+//			}
+//		} catch (SQLException e) {
+//			System.out.println("Connection failed. Error: " + e.getMessage());
+//		} finally {
+//			if (resultSet != null)
+//				resultSet.close();
+//			if (resultSet != null)
+//				preparedStatement.close();
+//			if (connection != null)
+//				connection.close();
+//		}
 		
 	}
 	
@@ -106,7 +109,7 @@ public class StatementFetch {
             File file = new File(filePath);
             ObjectMapper objectMapper = new ObjectMapper();
          // Truncating the file before writing it
-    		Files.newBufferedWriter(Path.of(filePath), StandardOpenOption.TRUNCATE_EXISTING);
+    		Files.newBufferedWriter(Paths.get(filePath), StandardOpenOption.TRUNCATE_EXISTING);
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 for (Map.Entry<String, String> entry : stmtMap.entrySet()) {
@@ -127,4 +130,8 @@ public class StatementFetch {
             System.err.println("Error writing JSON file: " + e.getMessage());
         }
     }
+	
+//	public static void main(String[] args) {
+//		FetchDataFromDB.exportPayoutLogToExcel();
+//	}
 }

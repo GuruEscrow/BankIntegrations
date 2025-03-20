@@ -1,24 +1,11 @@
 package RBL.Bank.Demon;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -258,12 +245,12 @@ public class PayoutAPI {
 					utr_rrn = responseBody.get("RefNo").getAsString();
 				}
 				//Updating the txn response
-				InsertDataIntoDB.updateTxnResponse(utr_rrn, response, TRANID);
+				InsertDataIntoDB.updateTxnResponse(utr_rrn,poNum, response, TRANID);
 				//Updating the initiated and response time with dealy
 				InsertDataIntoDB.updateTimestampsWithDelay(initiatedTSString, responseTSString, delay, TRANID);
 			}else {
 				//Updating when we got other than expected result
-				InsertDataIntoDB.updateTxnResponse("Not generated", response, TRANID);
+				InsertDataIntoDB.updateTxnResponse("Not generated", "", response, TRANID);
 				//Updating the initiated and response time with dealy
 				InsertDataIntoDB.updateTimestampsWithDelay(initiatedTSString, responseTSString, delay, TRANID);
 			}
@@ -271,7 +258,7 @@ public class PayoutAPI {
 		}catch(Exception e) {
 			//Update the error in the data bases
 			//Updating when we got other than expected result
-			InsertDataIntoDB.updateTxnResponse("ERROR",response+" "+ e.getMessage(), TRANID);
+			InsertDataIntoDB.updateTxnResponse("ERROR","",response+" "+ e.getMessage(), TRANID);
 			System.err.println("Error: while doing payout "+e.getMessage());
 			//Updating the initiated and response time with dealy
 //			InsertDataIntoDB.updateTimestampsWithDelay(initiatedTSString, responseTSString, delay, TRANID);
@@ -423,6 +410,5 @@ public class PayoutAPI {
 				.asString();
 		status = response.getStatus();
 		return response.getBody();
-
 	}
 }

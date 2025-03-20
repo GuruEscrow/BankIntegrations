@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.NSDL.uat.PayoutsTest">
+      <class name="com.Axis.uat.AxisAPI_Test">
         <methods>
-          <include name="upi_payout"/>
+          <include name="verifyVPA"/>
         </methods>
-      </class> <!-- com.NSDL.uat.PayoutsTest -->
+      </class> <!-- com.Axis.uat.AxisAPI_Test -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

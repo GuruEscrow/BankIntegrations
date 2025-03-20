@@ -154,7 +154,7 @@ public class Payout_Demon {
 					System.out.println("Task stopped after 1 minute.");
 				}
 			}
-		}, 5, TimeUnit.MINUTES); // Stop after 24 hrs
+		}, 24, TimeUnit.HOURS); // Stop after 24 hrs
         
         /**
          * Below code to do payouts for mentioned dealy for some given time (TPS checker)

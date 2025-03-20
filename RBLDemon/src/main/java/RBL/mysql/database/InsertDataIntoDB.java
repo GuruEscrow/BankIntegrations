@@ -51,7 +51,7 @@ public class InsertDataIntoDB {
 		}
 	}
 
-	public static void updateTxnResponse(String utr_rrn, String txn_response, String tranID)
+	public static void updateTxnResponse(String utr_rrn, String poNum, String txn_response, String tranID)
 			throws SQLException, ClassNotFoundException {
 		updateUrl();
 		Connection connection = null;
@@ -65,7 +65,7 @@ public class InsertDataIntoDB {
 
 //			String query = "INSERT INTO canarabank.payouts_log (utr,txn_response)" + "VALUES ('" + utr + "', '"
 //					+ txn_response + "')";
-			String query = "UPDATE "+dataBase+".payouts_log SET utr_rrn = '" + utr_rrn + "', txn_response = '" + txn_response
+			String query = "UPDATE "+dataBase+".payouts_log SET utr_rrn = '" + utr_rrn + "', poNum = '" + poNum + "', txn_response = '" + txn_response
 					+ "' WHERE tranID='" + tranID + "'";
 
 			preparedStatement = connection.prepareStatement(query);

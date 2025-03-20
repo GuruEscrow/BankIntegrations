@@ -1,16 +1,19 @@
 package RBL.mysql.database;
 
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.JsonParser;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class FetchDataFromDB {
 
@@ -151,6 +154,46 @@ public class FetchDataFromDB {
 
 		return txnID;
 		
+	}
+	
+	public static void exportPayoutLogToExcel() {
+		updateUrl();
+		 String excelFilePath = "D:\\Phedora\\Banks\\RBL bank\\Reports\\payoutLog.xlsx";
+//		 String query = "SELECT * FROM RBL_Bank.payouts_log where utr_rrn in ('ERROR','Not generated')";
+		 String query = "Select * from RBL_Bank.payouts_log";
+
+	        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+	             Statement statement = connection.createStatement();
+	             ResultSet resultSet = statement.executeQuery(query);
+	             Workbook workbook = new XSSFWorkbook();
+	             FileOutputStream fileOut = new FileOutputStream(excelFilePath)) {
+
+	            Sheet sheet = workbook.createSheet("Sheet1");
+	            Row headerRow = sheet.createRow(0);
+	            int columnCount = resultSet.getMetaData().getColumnCount();
+
+	            // Write Header Row
+	            for (int i = 1; i <= columnCount; i++) {
+	                Cell cell = headerRow.createCell(i - 1);
+	                cell.setCellValue(resultSet.getMetaData().getColumnName(i));
+	            }
+
+	            // Write Data Rows
+	            int rowNum = 1;
+	            while (resultSet.next()) {
+	                Row row = sheet.createRow(rowNum++);
+	                for (int i = 1; i <= columnCount; i++) {
+	                    Cell cell = row.createCell(i - 1);
+	                    cell.setCellValue(resultSet.getString(i));
+	                }
+	            }
+
+	            workbook.write(fileOut);
+	            System.out.println("Export successful! Data saved to " + excelFilePath);
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	}
 	
 }

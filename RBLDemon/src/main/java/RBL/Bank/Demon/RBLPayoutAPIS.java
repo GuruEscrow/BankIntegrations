@@ -241,12 +241,12 @@ public class RBLPayoutAPIS {
 					utr_rrn = responseBody.get("UTRNo").getAsString();	
 				}
 				//Updating the txn response
-				InsertDataIntoDB.updateTxnResponse(utr_rrn, response, TRANID);
+				InsertDataIntoDB.updateTxnResponse(utr_rrn,"", response, TRANID);
 				//Updating the initiated and response time with dealy
 				InsertDataIntoDB.updateTimestampsWithDelay(initiatedTSString, responseTSString, delay, TRANID);
 			}else {
 				//Updating when we got other than expected result
-				InsertDataIntoDB.updateTxnResponse("Not generated", response, TRANID);
+				InsertDataIntoDB.updateTxnResponse("Not generated","", response, TRANID);
 				//Updating the initiated and response time with dealy
 				InsertDataIntoDB.updateTimestampsWithDelay(initiatedTSString, responseTSString, delay, TRANID);
 			}
@@ -254,7 +254,7 @@ public class RBLPayoutAPIS {
 		}catch(Exception e) {
 			//Update the error in the data bases
 			//Updating when we got other than expected result
-			InsertDataIntoDB.updateTxnResponse("ERROR",response+" "+ e.getMessage(), TRANID);
+			InsertDataIntoDB.updateTxnResponse("ERROR","",response+" "+ e.getMessage(), TRANID);
 			System.err.println("Error: while doing payout "+e.getMessage());
 			//Updating the initiated and response time with dealy
 //			InsertDataIntoDB.updateTimestampsWithDelay(initiatedTSString, responseTSString, delay, TRANID);
