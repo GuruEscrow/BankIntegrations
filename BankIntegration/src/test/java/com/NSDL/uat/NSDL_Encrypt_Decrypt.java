@@ -104,9 +104,10 @@ public class NSDL_Encrypt_Decrypt {
 
 	public static String PGPDecryptPayload(String EncryptedPayload, String PRIVATE_KEY) throws Exception {
 
+		String finalPrivateKey  = PRIVATE_KEY.replace("-----BEGIN CERTIFICATE-----","").replace("-----END CERTIFICATE-----","").replace("\r\n","").trim();
 		String[] data = EncryptedPayload.split("\\^");
 
-		byte[] keyBytes1 = Base64.getDecoder().decode(PRIVATE_KEY.getBytes());
+		byte[] keyBytes1 = Base64.getDecoder().decode(finalPrivateKey.getBytes());
 		PKCS8EncodedKeySpec keySpec1 = new PKCS8EncodedKeySpec(keyBytes1);
 		KeyFactory keyFactory1 = KeyFactory.getInstance("RSA");
 		PrivateKey privateKey = keyFactory1.generatePrivate(keySpec1);

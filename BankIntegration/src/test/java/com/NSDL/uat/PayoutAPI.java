@@ -24,6 +24,51 @@ public class PayoutAPI {
 	private String KEY = "oIc3jwrw2P9CPCS4xWpTVpx5uRHX6FNQm5zpyvrvVhiK4Z9a5BO7DvRswDEV9VOQeIvuLA4hDK9BB8DolMVfms6idRb6dAf7tWT4mZDStC1WgqkkKCnMSWq537UpDEa7sRMFNuXHKsWoarZ468uYHIfeXkG8ROQKVFBpKk9WmQ4yJB9qsH2nHjubDvECM0sradM3IxMSW14AMhhDRUcVEpy9Q1fIan23bYiWicqfhQH6HA9DbYwmUupKHcfoza8r";
 	
 	private String refID;
+	
+	/**
+	 * This method is used to fetch the balance
+	 */
+	public String fetchBalance(String accNo) {
+		
+		String url = BASE_URL+"/getBalance";
+		String serviceType = "GETBALANCE";
+		
+		String Data_To_Encrypt =  "{\n"
+			    + "  \"instrumenttype\": \"ACCOUNTNO\",\n"
+			    + "  \"instrumentid\": \""+accNo+"\"\n"
+			    + "}";
+		
+		String Req_Payload = "{\n"
+			    + "\"channelid\": \""+CHANNEL_ID+"\",\n "
+			    + "\"partnerid\": \""+PARNTER_ID+"\",\n "
+			    + "\"appid\": \""+appId+"\",\n"
+			    + "\"servicetype\": \""+serviceType+"\",\n "
+			    + "\"encdata\": \"%s\"\n"
+			    + "}";
+		
+		String Plain_Payload = "{\n"
+			    + "\"channelid\": \""+CHANNEL_ID+"\", \n"
+			    + "\"partnerid\": \""+PARNTER_ID+"\", \n"
+			    + "\"appid\": \""+appId+"\", \n"
+			    + "\"servicetype\": \""+serviceType+"\",\n "
+			    + "\"encdata\":"+Data_To_Encrypt+"\n"
+			    + "}";
+		
+		System.out.println("Data to Encrypt--> "+Data_To_Encrypt);
+		System.out.println("\nPlain Payload--> "+Plain_Payload);
+		String encrypted = NSDL_Encrypt_Decrypt.EncryptPayload(Data_To_Encrypt, requestPublicCert);
+//		String encrypted = NSDL_Encrypt_Decrypt.encryptstring(Data_To_Encrypt, KEY);
+
+		String payload = String.format(Req_Payload, encrypted);
+		
+		System.out.println("\nEncrypted payload--> "+payload);
+		System.out.println("\nURL---> "+ url);
+		String response = invokeUniRequest(url, payload,serviceType);
+		
+		return response;
+	}
+	
+	
 	/**
 	 * This method is used to add the Beneficiary
 	 */
@@ -76,6 +121,7 @@ public class PayoutAPI {
 		
 		return response;
 	}
+
 
 	/**
 	 * This method is used to add the new account number to existing Bene
@@ -300,15 +346,30 @@ public class PayoutAPI {
 	 */
 	private String invokeUniRequest(String url, String payload, String serviceType) {
 		
-		kong.unirest.HttpResponse<String> response = Unirest.post(url)
-				.header("chanid", CHANNEL_ID)
-				.header("partnerid", PARNTER_ID)
-				.header("servicetype", serviceType)
-				.header("requestid", refID)
-				.header("Content-Type", "application/json")
-				.body(payload)
-				.socketTimeout(1200000)
-				.asString();
+		kong.unirest.HttpResponse<String> response = null;
+		
+		if(serviceType.equals("GETBALANCE") || serviceType.equals("GETSTATEMENT") ) {
+			response = Unirest.post(url)
+					.header("chanid", CHANNEL_ID)
+					.header("partnerid", PARNTER_ID)
+					.header("servicetype", serviceType)
+					.header("requestid", refID)
+					.header("mode", "2")
+					.header("Content-Type", "application/json")
+					.body(payload)
+					.socketTimeout(1200000)
+					.asString();
+		}else {
+			response = Unirest.post(url)
+					.header("chanid", CHANNEL_ID)
+					.header("partnerid", PARNTER_ID)
+					.header("servicetype", serviceType)
+					.header("requestid", refID)
+					.header("Content-Type", "application/json")
+					.body(payload)
+					.socketTimeout(1200000)
+					.asString();			
+		}
 		return response.getBody();
 
 	}
