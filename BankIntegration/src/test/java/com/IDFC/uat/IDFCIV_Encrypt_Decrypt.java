@@ -212,13 +212,23 @@ public class IDFCIV_Encrypt_Decrypt {
 	public static void main(String[] args) throws Exception {
 		//Key and IV should be in Hexadecimal format only.
 		String secretHexaKey = "12316d706c65445467654143536b959123616d706c65496488621144636b7562"; // 16 bit key in hexadecimal format
-		String data = "{\"prefetchAccountReq\":{\"CBSTellerBranch\":\"\",\"CBSTellerID\":\"\",\"accountNumber\":\"21488530945\"}}";;
+		String data = "{\n" +
+			    "    \"VANum\":\"ESCROZVAN006\",\n" +
+			    "    \"remitterAc\":\"45612345678900987\",\n" +
+			    "    \"remiterName\":\"aditi\",\n" +
+			    "    \"remitterAcType\":\"saving\",\n" +
+			    "    \"remitterBankifsc\":\"HDFC0956487564\",\n" +
+			    "    \"txnAmt\":\"500.0\",\n" +
+			    "    \"remitterBranch\":\"sant+nagar\",\n" +
+			    "    \"bankRef\":\"HDFB201907090000000112\",\n" +
+			    "    \"remitterBank\":\"HDFC\"\n" +
+			    "}";
 
 //		//Dynamic IV Encryption
-//		String encOutput = encrypt(data, secretHexaKey);
-//		System.out.println("Encryption: " + encOutput);
+		String encOutput = encrypt(data, secretHexaKey);
+		System.out.println("Encryption: " + encOutput);
 
-		String d = "S0F+XjBrWUlIMFFab2RmWvnPlONiCBfhwDtjFeZwSbphmUpd0rtXr5lsz1BnpCJrfB0Ui8pnWzkpqfgxute5muKg+tibhjbOeBGmKpsltbl0vuBu+syg4k/cqkLGskYutlYqGh3iqIVlSogZ8viqOR0XqomSdro7gkeQNgTM32TklZFS9CQqcFNtzXfr7df6/k3ZAI06nGebPOI8A6fVW66by3SpKgAJYe9KtcFsRzXIyUZs5o5rfs5wjQPGlAA8sF9dFPBDb/DY3NRIqWC1PZDcLvjYwS7ac6QO2M1huddDdX7TKNis3BAUwlAj2z9lGEfDojzVPyxS+0UEvtyB7L5PZCjwGs+zOs9DO8IQDQtpHjpGlARgqRpwwIgC4MQoP4zfaDWAFmXKqhE9iLjZRh8ToNWxgHUH5dJthHcq+cHMGV1iRE2wUtZXYPrVdS+7+A+p5Yteu6sCOVea6v1Jcw==";
+		String d = "YDV1TENpenkxMjE1YFZbN0itzWOjaC3S5iQcDPE2TXM18eF5xiV7VuVoi588N+6lKvGZaCfSg7T6oDT/nEZkhJSGZDLCmZWfsgz6o8fHL8akzxhWHtLoksih04FCtBLA9BhwG3ViSHkpjmVdYaNSgL6UlAe94NcB01eqwdhR83CtJQrwrmA67I6XwFP2vfaeH0Z9C+69h9+dMdEbkbDP9Xsm5iM/4AU+DPFWXs4bZyeWFm4RIWu5wIDwn0Iu1zw1KGE62yiJFUJ6ewjB714+nK6cScmQzUaiK/osHpBDBiQ=";
 		
 		//Dynamic IV Decrytpion
 		String decOutput = decrypt(d, secretHexaKey);

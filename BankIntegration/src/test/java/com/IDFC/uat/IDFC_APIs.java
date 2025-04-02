@@ -104,7 +104,7 @@ public class IDFC_APIs {
 		IDFCIV_Encrypt_Decrypt encrypt = new IDFCIV_Encrypt_Decrypt();
 		
 		String plainPayload = null;
-		if(mode.equals("false")) {
+		if(mode.equals("RTGS")) {
 			plainPayload = "{\n" +
 				    "    \"initiateAuthGenericFundTransferAPIReq\": {\n" +
 				    "         \"tellerBranch\": \"\",\n" +
@@ -112,17 +112,17 @@ public class IDFC_APIs {
 				    "         \"transactionID\": \""+txnID+"\",\n" +
 				    "         \"debitAccountNumber\": \"21488530945\",\n" +
 				    "         \"creditAccountNumber\": \""+beneAccNo+"\",\n" +
-				    "         \"remitterName\": \"Anitha M\",\n" +
+				    "         \"remitterName\": \"Pooja Prakash Sharma\",\n" +
 				    "         \"amount\": \""+amt+"\",\n" +
 				    "         \"currency\": \"INR\",\n" +
 				    "         \"transactionType\": \""+mode+"\",\n" +
-				    "         \"paymentDescription\": \"Narration\",\n" +
+				    "         \"paymentDescription\": \"fund transfer\",\n" +
 				    "         \"beneficiaryIFSC\": \""+beneIFSC+"\",\n" +
 				    "         \"beneficiaryName\": \""+beneName+"\",\n" +
 				    "         \"beneficiaryAddress\": \""+beneAdd+"\",\n" +
-				    "         \"emailID\": \""+email+"\",\n" +
-				    "         \"mobileNo\": \""+mob+"\"\n" +
-				    "         \"messageType\": \"testing\"\n" +
+				    "         \"emailId\": \""+email+"\",\n" +
+				    "         \"mobileNo\": \""+mob+"\",\n" +
+				    "         \"messageType\": \"R41\"\n" +
 				    "    }\n" +
 				    "}";
 		}else {
@@ -133,15 +133,15 @@ public class IDFC_APIs {
 				    "         \"transactionID\": \""+txnID+"\",\n" +
 				    "         \"debitAccountNumber\": \"21488530945\",\n" +
 				    "         \"creditAccountNumber\": \""+beneAccNo+"\",\n" +
-				    "         \"remitterName\": \"Anitha M\",\n" +
+				    "         \"remitterName\": \"Guru\",\n" +
 				    "         \"amount\": \""+amt+"\",\n" +
 				    "         \"currency\": \"INR\",\n" +
 				    "         \"transactionType\": \""+mode+"\",\n" +
-				    "         \"paymentDescription\": \"Narration\",\n" +
+				    "         \"paymentDescription\": \"fund transfer\",\n" +
 				    "         \"beneficiaryIFSC\": \""+beneIFSC+"\",\n" +
 				    "         \"beneficiaryName\": \""+beneName+"\",\n" +
 				    "         \"beneficiaryAddress\": \""+beneAdd+"\",\n" +
-				    "         \"emailID\": \""+email+"\",\n" +
+				    "         \"emailId\": \""+email+"\",\n" +
 				    "         \"mobileNo\": \""+mob+"\"\n" +
 //				    "         \"messageType\": \"R41\"\n" +
 				    "    }\n" +
@@ -176,15 +176,15 @@ public class IDFC_APIs {
 		}
 	}
 
-	public void txnStatus(String mode,String payRefNum,String txnDate) {
+	public void txnStatus(String mode,String txnRefNum,String payRefNum,String txnDate) {
 		IDFCIV_Encrypt_Decrypt encrypt = new IDFCIV_Encrypt_Decrypt();
 		
 		String plainPayload = "{\n" +
 			    "    \"paymentTransactionStatusReq\": {\n" +
-			    "        \"tellerBranch\": \"41101\",\n" +
-			    "        \"tellerID\": \"9903\",\n" +
-			    "        \"transactionType\": \""+txnDate+"\",\n" +
-			    "        \"transactionReferenceNumber\": \"\",\n" +
+			    "        \"tellerBranch\": \"\",\n" +
+			    "        \"tellerID\": \"\",\n" +
+			    "        \"transactionType\": \""+mode+"\",\n" +
+			    "        \"transactionReferenceNumber\": \""+txnRefNum+"\",\n" +
 			    "        \"paymentReferenceNumber\": \""+payRefNum+"\",\n" +
 			    "        \"transactionDate\": \""+txnDate+"\"\n" +
 			    "    }\n" +
@@ -196,7 +196,53 @@ public class IDFC_APIs {
         BaseURL = credentials.get("BaseUrl");
         accessToken = credentials.get("accessToken");
     	
-    	String url = BaseURL+"/paymenttxns/v1/fundTransfer";
+    	String url = BaseURL+"/paymentenqs/v1/paymentTransactionStatus";
+    	
+    	System.out.println("\nPlain Payload --> "+plainPayload);
+    	
+		try {
+			String encryptReq = encrypt.encrypt(plainPayload, IDFC_APIs.secretHex);
+			System.out.println("\nEncrypted Request --> "+encryptReq);
+			
+			System.out.println("\nURL --> "+url);
+			
+		    String response = invokeUniRequest(url, encryptReq);
+		    System.out.println("\nEncrypted Response --> "+response);
+		    System.out.println("\nDecrypted Response --> "+encrypt.decrypt(response, IDFC_APIs.secretHex));
+		    
+		    
+		} catch (InvalidKeyException | UnsupportedEncodingException | NoSuchAlgorithmException | NoSuchPaddingException
+				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void beneValidation(String identifier,String crAccNo,String crIfsc,String txnRef,String merchCode) {
+		IDFCIV_Encrypt_Decrypt encrypt = new IDFCIV_Encrypt_Decrypt();
+		
+		String plainPayload = "{\n" +
+			    "    \"beneValidationReq\": {\n" +
+			    "        \"remitterName\": \"Vikas\",\n" +
+			    "        \"remitterMobileNumber\": \"+91-9819574650\",\n" +
+			    "        \"debtorAccountId\": \"21488530945\",\n" +
+			    "        \"accountType\": \"10\",\n" +
+			    "        \"creditorAccountId\": \""+crAccNo+"\",\n" +
+			    "        \"ifscCode\": \""+crIfsc+"\",\n" +
+			    "        \"paymentDescription\": \"Testing\",\n" +
+			    "        \"transactionReferenceNumber\": \""+txnRef+"\",\n" +
+			    "        \"merchantCode\": \""+merchCode+"\",\n" +
+			    "        \"identifier\": \""+identifier+"\"\n" +
+			    "    }\n" +
+			    "}";
+		
+		//This code is used to initiate the credentials
+    	Dotenv credentials = Dotenv.configure().directory("./").filename("idbl.env").load();
+    	IDFC_APIs.secretHex = credentials.get("secretHex");
+        BaseURL = credentials.get("BaseUrl");
+        accessToken = credentials.get("accessToken");
+    	
+    	String url = BaseURL+"/paymentenqs/v1/beneValidation";
     	
     	System.out.println("\nPlain Payload --> "+plainPayload);
     	
@@ -240,4 +286,5 @@ public class IDFC_APIs {
 		return response.getBody();
 
 	}
+
 }
