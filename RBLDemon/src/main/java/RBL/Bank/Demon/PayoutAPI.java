@@ -71,10 +71,10 @@ public class PayoutAPI {
 			System.out.println("\nStatus -->"+status);
 //			System.out.println("\nStatement response --> "+response);
 			
-			JsonObject responseJsonParse = JsonParser.parseString(response).getAsJsonObject();
-			System.out.println(responseJsonParse.toString());
-			if(responseJsonParse.get("data").isJsonArray()) {
-				JsonArray statementArray = responseJsonParse.get("data").getAsJsonArray();
+//			JsonObject responseJsonParse = JsonParser.parseString(response).getAsJsonObject();
+//			System.out.println(responseJsonParse.toString());
+			if(JsonParser.parseString(response).isJsonArray()) {
+				JsonArray statementArray = JsonParser.parseString(response).getAsJsonArray();
 				
 				 String txnDesc = null;
 				 String allTxnID = null;

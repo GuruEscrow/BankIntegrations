@@ -155,43 +155,44 @@ public class Payout_Demon {
 				}
 			}
 		}, 24, TimeUnit.HOURS); // Stop after 24 hrs
-        
-        /**
-         * Below code to do payouts for mentioned dealy for some given time (TPS checker)
-         */
-//		final ScheduledExecutorService tpsScheduler = Executors.newScheduledThreadPool(1);
+//        
+//        /**
+//         * Below code to do payouts for mentioned dealy for some given time (TPS checker)
+//         */
+////		final ScheduledExecutorService tpsScheduler = Executors.newScheduledThreadPool(1);
+////
+////		tpsScheduler.scheduleAtFixedRate(new Runnable() {
+////			@Override
+////			public void run() {
+////				// Submit the task to another thread
+////				Executors.newSingleThreadExecutor().submit(new Runnable() {
+////					@Override
+////					public void run() {
+////						int count = payoutCount.incrementAndGet();
+////						if(true) {
+////							//Extrenal transfer
+////							testDemon.payout(2,"NEFT");
+////						}else {
+////							//Internal transfer
+//////							testDemon.payout(1,"NEFT");
+////						}
+////					}
+////				});
+////			}
+////		}, 0,333 , TimeUnit.MILLISECONDS);
+////
+////		// To stop the payouts after 1 minutes and it will be there to execute all the
+////		// threads
+////		tpsScheduler.schedule(new Runnable() {
+////			@Override
+////			public void run() {
+////				if (tpsScheduler != null) {
+////					tpsScheduler.shutdown(); // Optionally shut down the scheduler
+////				}
+////			}
+////		}, 15, TimeUnit.MINUTES);
 //
-//		tpsScheduler.scheduleAtFixedRate(new Runnable() {
-//			@Override
-//			public void run() {
-//				// Submit the task to another thread
-//				Executors.newSingleThreadExecutor().submit(new Runnable() {
-//					@Override
-//					public void run() {
-//						int count = payoutCount.incrementAndGet();
-//						if(true) {
-//							//Extrenal transfer
-//							testDemon.payout(2,"NEFT");
-//						}else {
-//							//Internal transfer
-////							testDemon.payout(1,"NEFT");
-//						}
-//					}
-//				});
-//			}
-//		}, 0,333 , TimeUnit.MILLISECONDS);
-//
-//		// To stop the payouts after 1 minutes and it will be there to execute all the
-//		// threads
-//		tpsScheduler.schedule(new Runnable() {
-//			@Override
-//			public void run() {
-//				if (tpsScheduler != null) {
-//					tpsScheduler.shutdown(); // Optionally shut down the scheduler
-//				}
-//			}
-//		}, 15, TimeUnit.MINUTES);
-
 	}
+	
 
 }

@@ -52,7 +52,7 @@ public class StatementFetch {
 		String fromDate = LocalDate.now().format(dateFormat);
 		String toDate = LocalDate.parse(fromDate, dateFormat).plusDays(1).format(dateFormat);
 		
-         Map<String, String> stmtMap = api.getStatements("2025-03-04", "2025-03-05", "D", "", "", "", "", "", "");
+         Map<String, String> stmtMap = api.getStatements("2025-03-05", "2025-03-05", "B", "", "", "", "", "", "");
          
       // Define the directory path and file name
          String directoryPath = "D:\\Phedora\\Banks\\RBL bank\\Reports";
