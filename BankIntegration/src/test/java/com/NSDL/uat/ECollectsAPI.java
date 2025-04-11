@@ -1,5 +1,6 @@
 package com.NSDL.uat;
 
+import genricLibraries.PropertiesUtility;
 import kong.unirest.Unirest;
 
 public class ECollectsAPI {
@@ -10,15 +11,17 @@ public class ECollectsAPI {
 	
 	private String privateKey = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCVrSnhezJ4WQykXYlL4Nz3Q4CRkJvSics08eZbh/b4GCInfXjbBnT3mN4+G0RIUZFUCVyDZUseR9AI3SmRhalvNNWgBQb1EvzLFKUn9TElzAeg86gKv9QJAngVkNWSONIx1b4k8X07k+5GKVUsMQqpoi8vhewvyu1IkJRHu+63cF2KsWLjgegzdAroH8LZa/bMIMq2MkMh10Uq8tePBrZdXEqHxEVacsJrHk7pDJ+AqkaWEjdv4Me+En6kmx/fjY/pZ0UNSwlVeIKYUFyZ4ATzyC07A9gkB4tgUt8bchlyHnYeO1itUM/f4xRNKJgeySj6HAw0KJcKCfrv9Sl1D3JLAgMBAAECggEADa49BeaITOwQFeqUv4eR5X8ufl+XgS1mEkn1R7LMQI3tepWN2TB5ush8BnTgj172kmtOoOs+a/SdZQoDStFK6ia2oJXaYRvMrlU4k/KQfPIX/76gQpHuXqpym79YE1w33iU5aCVd0HcWJXnmq+Te+B/3rHd9szqa6JyKaRTE3iWhCxYvBtQmkwa/FtyW5aljUHf6Iy+eJd4i5zMuEMdQEYZZrKOCfLnX+APH9a78P+Pkz4mo8SzL2EVTmqDBHFghjQV5iGJKkvoGV13dGUZqkgvOt6gl8HDoKIMPjoCp4JQJZ8dQJ4LYRRinkffW1Fg+m7bGP1yy3ihKNCS1qiRl9QKBgQC1K+phhhz3IL7aVs+KB+k94Bdg79fmW9ipYZ/rLlkmuG62AxUdNdnVupSlGed0B/f83yeckmYTPDWAesY1Y+qGzA6/XbxAsSPeoaOVUDaur1CI0RRTpan7j81ADfCzn2NK33AXD96RRe+JDeJwI2DyjvV8eN1bavgxVeO+ivOG3wKBgQDTfyBgj3BDkZf1wd5ueIGiMwgG3jQR/e6QRp/YXxvp8Io1c3JCPOaBNnw7GBeL+e0VxzF4a1c7mFtXlbSIXpgT/7TwInv5ahcr6BQlUu11cgtM8L9HJ88Q9D9jQRfvkUbDD6OQW5ieAae6oTr/DcYJMM5IhsQBDo5ByZSpw+DeFQKBgGwk2rN8Kq4ZjdMnHpt2PXQB3/KtOGL5UEtLSvpHoE/Mp8ld7aySCIXb6f7jh5VrbEw1qJ99hBDXT9hxcP9NtSDhjawNd+Hl21N5iPwH9ZwwahJBO7DyopTXMd2adKPD8LEwzuf1QRXWeTWGZDQr6iLf0wmJ3BhFsgFBE8EZkGRhAoGAejsahzPe+e4HGO12k/npUciUdwOsrElJuvBWKUKua0GtXr7d5hI0VbEbkzuVQDytHM0GdkXzIGopQDExKS8iTUyXUcFcTQVXZvS1z+xheGL0zP7GTWVgcrf2enKAVuBrOQisyx1k0sy6F05fPlDDh0RBtADO/p1e8f6CgKrIJxECgYBVWS5qqjfrWqpQjxpA+6NdXzoREA0bRD2zSj9g45fr3YuOBpGFk8BlGa4E9l964MrPKfWadV0Zp9U2stN/+ydxalB7vuoPgYCyxr+CI0vMf3LArGtBGTEqkb1Ot+WhRMLo4/3P0xGGKwM/ne/lulhha+bv1Flz2X5lSfbHyNCY+A==";
 
-	private String CHANNEL_ID = "ElxvUGaBniUlBJtMWdcG";
+	private String CHANNEL_ID = "QfxKcJLMsKgmemTGgRnb";
 
-	private String PARNTER_ID = "c377bbe133c18bab6360b3f3ed5d8f3f";
+	private String PARNTER_ID = "zqK07k2YvE";
 
-	private String appId = "com.sample.nsdlpb"; //"com.mobile.nsdlpb"
+	private String appId = "com.nsdlecollect.nsdl"; //"com.mobile.nsdlpb"
 	
 	private String BASE_URL = "https://jiffyuat.nsdlbank.co.in";
 	
 	private String KEY = "oIc3jwrw2P9CPCS4xWpTVpx5uRHX6FNQm5zpyvrvVhiK4Z9a5BO7DvRswDEV9VOQeIvuLA4hDK9BB8DolMVfms6idRb6dAf7tWT4mZDStC1WgqkkKCnMSWq537UpDEa7sRMFNuXHKsWoarZ468uYHIfeXkG8ROQKVFBpKk9WmQ4yJB9qsH2nHjubDvECM0sradM3IxMSW14AMhhDRUcVEpy9Q1fIan23bYiWicqfhQH6HA9DbYwmUupKHcfoza8r";
+	
+	private String secreteKey = "ZfxfbtHemclDj0W5x140S9DOZvfTwpJl0L0uzc9vtUiOYN7qKCuvD2wP2xAtEhrb6epBtKpjbILt3KxICnisBaIzvPuIbJoOdqFvaEmFGtQvzyVyoT6TDkp71fwJdRlT";
 	
 	private String refID;
 	
@@ -26,57 +29,73 @@ public class ECollectsAPI {
 	/**
 	 * This method is used to create Virtual Account
 	 */
-	public String createVAN(String payoutMode,String beneRefID,String accountNo,double amt) {
+	public String createVAN(String custfname,String custmname,String custlname,String custSname,String mob,String email,String van) {
 		String url = BASE_URL+ "/jarvisgwy/crePrtnrCustandAccnt";
 		String serviceType = "CRECUSTANDACCOUNT";
+
+		String checkSumValues = CHANNEL_ID + PARNTER_ID + serviceType + refID + refID + "USERS" + "ISSUER" + custfname
+				+ custmname + custlname + custSname + mob + email + "ECOLLECT" + van + "ALLOCATION" + "DEFAULT"
+				+ "13898" + "NA";
 		
-		String Data_To_Encrypt = "";
+		String signedChecksum = NSDL_Encrypt_Decrypt.signatureChecksum(secreteKey, checkSumValues);
 		
 		String Req_Payload = "{\n" +
 			    "  \"channelid\": \""+CHANNEL_ID+"\",\n" +
 			    "  \"partnerid\": \""+PARNTER_ID+"\",\n" +
 			    "  \"reqdtls\": {\n" +
 			    "    \"reqtype\": \""+serviceType+"\",\n" +
-			    "    \"chantxnrefno\": \"703021133920001020211\",\n" +
-			    "    \"usrtxnrefno\": \"703021133920001020211\"\n" +
+			    "    \"chantxnrefno\": \""+refID+"\",\n" +
+			    "    \"usrtxnrefno\": \""+refID+"\"\n" +
 			    "  },\n" +
 			    "  \"custdetails\": {\n" +
 			    "    \"custtype\": \"USERS\",\n" +
 			    "    \"custprodcode\": \"ISSUER\",\n" +
-			    "    \"custfname\": \"Sharad\",\n" +
-			    "    \"custmname\": \"Sharad\",\n" +
-			    "    \"custlname\": \"Dubey\",\n" +
-			    "    \"custshortname\": \"Dubey\",\n" +
-			    "    \"mobile\": \"9594432548\",\n" +
-			    "    \"email\": \"shradh.dubey@gmail.com\",\n" +
+			    "    \"custfname\": \""+custfname+"\",\n" +
+			    "    \"custmname\": \""+custmname+"\",\n" +
+			    "    \"custlname\": \""+custlname+"\",\n" +
+			    "    \"custshortname\": \""+custSname+"\",\n" +
+			    "    \"mobile\": \""+mob+"\",\n" +
+			    "    \"email\": \""+email+"\",\n" +
 			    "    \"uniqueIDtype\": \"ECOLLECT\",\n" +
-			    "    \"uniqueID\": \"ECXX100101000311\"\n" +
+			    "    \"uniqueID\": \""+van+"\"\n" +
 			    "  },\n" +
 			    "  \"acntdetails\": {\n" +
 			    "    \"acnttype\": \"ALLOCATION\",\n" +
 			    "    \"acntprodcode\": \"DEFAULT\"\n" +
 			    "  },\n" +
 			    "  \"reqUserId\": \"13898\",\n" +
-			    "  \"signcs\": \"x8t28r3K00ahaA656zglnSAn+txcpXrCTJ85+nnM1Jk0glRgKJ64sj2+JXUteEauL\\n" +
-			    "  oAjRADgjBB9UKz106FvJw==\",\n" +
+			    "  \"signcs\": \""+signedChecksum+"\",\n" +
 			    "  \"token\": \"NA\"\n" +
 			    "}";
 		
-		String Plain_Payload = "";
 		
-		System.out.println("Data to Encrypt--> "+Data_To_Encrypt);
-		System.out.println("\nPlain Payload--> "+Plain_Payload);
-//		String encrypted = NSDL_Encrypt_Decrypt.EncryptPayload(Data_To_Encrypt, requestPublicCert);
-		String encrypted = NSDL_Encrypt_Decrypt.encryptstring(Data_To_Encrypt, KEY);
+//		System.out.println("Data to Encrypt--> "+Data_To_Encrypt);
+		System.out.println("\nReq Payload--> "+Req_Payload);
 
-	
-		String payload = String.format(Req_Payload, encrypted);
-		System.out.println("\nEncrypted payload--> "+payload);
 		
 		System.out.println("\nURL---> "+ url);
-		String response = invokeUniRequest(url, payload,serviceType);
+		String response = invokeUniRequest(url, Req_Payload,serviceType);
 		
 		return response;
+	}
+	
+	
+	/**
+	 * Constructor to create the refID
+	 */
+	public ECollectsAPI() {
+		// Unirest.setTimeouts(0, 0);
+		String propertyPath = "./src/test/resources/bankIntg.properties";
+
+		// Accessing the property file to fetch the data
+		PropertiesUtility properties = new PropertiesUtility();
+		properties.propertiesInit(propertyPath);
+		int num = Integer.parseInt(properties.readData("collect"));
+
+		refID = "ECOLLECT" + num;
+
+		// Updating the number in property file
+		properties.writeToProperties("collect", String.valueOf(++num), propertyPath);
 	}
 	
 	

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="3" total="4" passed="1" failed="0" skipped="0">
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-03-20T15:48:52 IST" name="Default suite" finished-at="2025-03-20T15:48:53 IST" duration-ms="1637">
+  <suite started-at="2025-04-09T16:01:19 IST" name="Default suite" finished-at="2025-04-09T16:01:24 IST" duration-ms="4685">
     <groups>
     </groups>
-    <test started-at="2025-03-20T15:48:52 IST" name="Default test" finished-at="2025-03-20T15:48:53 IST" duration-ms="1637">
-      <class name="com.IDFC.uat.IDFC_API_Test">
-        <test-method signature="payout()[pri:0, instance:com.IDFC.uat.IDFC_API_Test@d23e042]" started-at="2025-03-20T15:48:52 IST" name="payout" finished-at="2025-03-20T15:48:53 IST" duration-ms="1603" status="PASS">
+    <test started-at="2025-04-09T16:01:19 IST" name="Default test" finished-at="2025-04-09T16:01:24 IST" duration-ms="4685">
+      <class name="com.NSDL.uat.ECollectTest">
+        <test-method signature="ecollect()[pri:0, instance:com.NSDL.uat.ECollectTest@169bb4dd]" started-at="2025-04-09T16:01:19 IST" name="ecollect" finished-at="2025-04-09T16:01:24 IST" duration-ms="4646" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- payout -->
-      </class> <!-- com.IDFC.uat.IDFC_API_Test -->
+        </test-method> <!-- ecollect -->
+      </class> <!-- com.NSDL.uat.ECollectTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
